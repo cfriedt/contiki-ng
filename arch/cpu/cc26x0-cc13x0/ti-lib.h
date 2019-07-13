@@ -200,11 +200,11 @@
 
 #if CPU_FAMILY_CC26X0R2
 #define ti_lib_chipinfo_chip_family_is_cc26xx(...)     ChipInfo_ChipFamilyIs_CC26x0(__VA_ARGS__)
-#define ti_lib_chipinfo_chip_family_is_cc13xx(...)     ChipInfo_ChipFamilyIs_CC13x0(__VA_ARGS__)
+#define ti_lib_chipinfo_chip_family_is_cc13xx(...)     (FAMILY_CC13x0 == ChipInfo_GetChipFamily()||ChipInfo_ChipFamilyIs_CC13x2_CC26x2(__VA_ARGS__))
 #define ti_lib_chipinfo_chip_family_is_cc26x0r2(...)   ChipInfo_ChipFamilyIs_CC26x0R2(__VA_ARGS__)
 #else
-#define ti_lib_chipinfo_chip_family_is_cc26xx(...)     ChipInfo_ChipFamilyIsCC26xx(__VA_ARGS__)
-#define ti_lib_chipinfo_chip_family_is_cc13xx(...)     ChipInfo_ChipFamilyIsCC13xx(__VA_ARGS__)
+#define ti_lib_chipinfo_chip_family_is_cc26xx(...)     (ChipInfo_ChipFamilyIsCC26x0(__VA_ARGS__)||ChipInfo_ChipFamilyIsCC26x0R2(__VA_ARGS__)||ChipInfo_ChipFamilyIsCC26x1(__VA_ARGS__)||ChipInfo_ChipFamilyIs_CC13x2_CC26x2(__VA_ARGS__))
+#define ti_lib_chipinfo_chip_family_is_cc13xx(...)     (FAMILY_CC13x0 == ChipInfo_GetChipFamily()||ChipInfo_ChipFamilyIs_CC13x2_CC26x2(__VA_ARGS__))
 #endif /* CPU_FAMILY_CC26X0R2 */
 
 #define ti_lib_chipinfo_get_hw_revision(...)           ChipInfo_GetHwRevision(__VA_ARGS__)
