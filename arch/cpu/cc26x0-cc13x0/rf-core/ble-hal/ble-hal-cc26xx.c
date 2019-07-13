@@ -737,7 +737,7 @@ advertising_event(struct rtimer *t, void *ptr)
   uint32_t wakeup;
 
   if(on() != BLE_RESULT_OK) {
-    LOG_ERR("BLE-HAL: advertising event: could not enable rf core\n");
+    //LOG_ERR("BLE-HAL: advertising event: could not enable rf core\n");
     return;
   }
 

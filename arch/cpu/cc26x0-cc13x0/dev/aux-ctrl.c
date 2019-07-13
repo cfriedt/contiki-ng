@@ -49,8 +49,8 @@ aux_ctrl_register_consumer(aux_consumer_module_t *consumer)
 
   aux_ctrl_power_up();
 
-  ti_lib_aux_wuc_clock_enable(consumer->clocks);
-  while(ti_lib_aux_wuc_clock_status(consumer->clocks) != AUX_WUC_CLOCK_READY);
+//  ti_lib_aux_wuc_clock_enable(consumer->clocks);
+//  while(ti_lib_aux_wuc_clock_status(consumer->clocks) != AUX_WUC_CLOCK_READY);
 
   if(!interrupts_disabled) {
     ti_lib_int_master_enable();
@@ -79,8 +79,8 @@ aux_ctrl_power_up()
     return;
   }
 
-  ti_lib_aon_wuc_aux_wakeup_event(AONWUC_AUX_WAKEUP);
-  while(!(ti_lib_aon_wuc_power_status_get() & AONWUC_AUX_POWER_ON));
+//  ti_lib_aon_wuc_aux_wakeup_event(AONWUC_AUX_WAKEUP);
+//  while(!(ti_lib_aon_wuc_power_status_get() & AONWUC_AUX_POWER_ON));
 }
 /*---------------------------------------------------------------------------*/
 void

@@ -359,7 +359,11 @@
 
 #define ti_lib_prcm_inf_clock_configure_set(...)       PRCMInfClockConfigureSet(__VA_ARGS__)
 #define ti_lib_prcm_inf_clock_configure_get(...)       PRCMInfClockConfigureGet(__VA_ARGS__)
+#if 0
 #define ti_lib_prcm_mcu_power_off(...)                 PRCMMcuPowerOff(__VA_ARGS__)
+#else
+#define ti_lib_prcm_mcu_power_off(...)
+#endif
 #define ti_lib_prcm_mcu_power_off_cancel(...)          PRCMMcuPowerOffCancel(__VA_ARGS__)
 #define ti_lib_prcm_mcu_uldo_configure(...)            PRCMMcuUldoConfigure(__VA_ARGS__)
 #define ti_lib_prcm_audio_clock_enable(...)            PRCMAudioClockEnable(__VA_ARGS__)
@@ -397,8 +401,13 @@
 /* rfc.h */
 #include "driverlib/rfc.h"
 
+#if 0
 #define ti_lib_rfc_rtrim(...)                    RFCRTrim(__VA_ARGS__)
 #define ti_lib_rfc_adi3vco_ldo_voltage_mode(...) RFCAdi3VcoLdoVoltageMode(__VA_ARGS__)
+#else
+#define ti_lib_rfc_rtrim(...)
+#define ti_lib_rfc_adi3vco_ldo_voltage_mode(...)
+#endif
 #define ti_lib_rfc_hw_int_enable(...)            RFCHwIntEnable(__VA_ARGS__)
 #define ti_lib_rfc_hw_int_disable(...)           RFCHwIntDisable(__VA_ARGS__)
 #define ti_lib_rfc_hw_int_clear(...)             RFCHwIntClear(__VA_ARGS__)

@@ -1,3 +1,5 @@
+CFLAGS += -O0 -g
+
 CONTIKI_PROJECT=client
 
 all: $(CONTIKI_PROJECT)
