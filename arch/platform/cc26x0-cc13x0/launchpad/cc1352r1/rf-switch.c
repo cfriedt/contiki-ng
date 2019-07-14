@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, University of Bristol - http://www.bris.ac.uk/
+ * Copyright (c) 2015, Texas Instruments Incorporated - http://www.ti.com/
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,90 +28,65 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /*---------------------------------------------------------------------------*/
+/**
+ * \addtogroup rf-switch
+ * @{
+ *
+ * \file
+ * CC1350 LP RF switch driver
+ */
+/*---------------------------------------------------------------------------*/
 #include "contiki.h"
-#include "dev/aux-ctrl.h"
-#include "lib/list.h"
-
+#include "lpm.h"
+#include "rf-core/rf-switch.h"
 #include "ti-lib.h"
 
 #include <stdint.h>
+#include <string.h>
 #include <stdbool.h>
-#include <stddef.h>
 /*---------------------------------------------------------------------------*/
-LIST(consumers_list);
+#define POWER_PIN  IOID_30
+#define SELECT_PIN IOID_1
+/*---------------------------------------------------------------------------*/
+static void
+shutdown_handler(uint8_t mode)
+{
+  ti_lib_gpio_clear_dio(POWER_PIN);
+}
+/*---------------------------------------------------------------------------*/
+/*
+ * Declare a data structure to register with LPM. Always turn off the switch
+ * when we are dropping to deep sleep. We let the RF driver turn it on though.
+ */
+LPM_MODULE(rf_switch_module, NULL, shutdown_handler, NULL, LPM_DOMAIN_NONE);
 /*---------------------------------------------------------------------------*/
 void
-aux_ctrl_register_consumer(aux_consumer_module_t *consumer)
+rf_switch_init()
 {
-  bool interrupts_disabled = ti_lib_int_master_disable();
+  ti_lib_ioc_pin_type_gpio_output(POWER_PIN);
+  ti_lib_gpio_clear_dio(POWER_PIN);
+  ti_lib_ioc_pin_type_gpio_output(SELECT_PIN);
+  ti_lib_gpio_clear_dio(SELECT_PIN);
 
-  list_add(consumers_list, consumer);
-
-  aux_ctrl_power_up();
-
-//  ti_lib_aux_wuc_clock_enable(consumer->clocks);
-//  while(ti_lib_aux_wuc_clock_status(consumer->clocks) != AUX_WUC_CLOCK_READY);
-
-  if(!interrupts_disabled) {
-    ti_lib_int_master_enable();
-  }
+  lpm_register_module(&rf_switch_module);
 }
 /*---------------------------------------------------------------------------*/
 void
-aux_ctrl_unregister_consumer(aux_consumer_module_t *consumer)
+rf_switch_power_up()
 {
-  bool interrupts_disabled = ti_lib_int_master_disable();
-
-  list_remove(consumers_list, consumer);
-
-  aux_ctrl_power_down(false);
-
-  if(!interrupts_disabled) {
-    ti_lib_int_master_enable();
-  }
+  ti_lib_gpio_set_dio(POWER_PIN);
 }
 /*---------------------------------------------------------------------------*/
 void
-aux_ctrl_power_up()
+rf_switch_power_down()
 {
-  /* Don't if we have no consumers */
-  if(list_head(consumers_list) == NULL) {
-    return;
-  }
-
-//  ti_lib_aon_wuc_aux_wakeup_event(AONWUC_AUX_WAKEUP);
-//  while(!(ti_lib_aon_wuc_power_status_get() & AONWUC_AUX_POWER_ON));
+  ti_lib_gpio_clear_dio(POWER_PIN);
 }
 /*---------------------------------------------------------------------------*/
 void
-aux_ctrl_power_down(bool force)
+rf_switch_select_path(uint8_t path)
 {
-  aux_consumer_module_t *consumer;
-  uint32_t clocks_in_use = 0;
-
-  if(!force) {
-    /* Visit all modules and release clocks */
-    for(consumer = list_head(consumers_list); consumer != NULL;
-        consumer = consumer->next) {
-      clocks_in_use |= consumer->clocks;
-    }
-
-    /* If any clocks are still in use, AUX needs to stay powered and clocked */
-    if(clocks_in_use) {
-      ti_lib_aon_wuc_aux_power_down_config(AONWUC_CLOCK_SRC_LF);
-      return;
-    }
-  }
-
-  /* No clock for AUX in power down */
-  ti_lib_aon_wuc_aux_power_down_config(AONWUC_NO_CLOCK);
-
-  /* Disable retention */
-  ti_lib_aon_wuc_aux_sram_config(false);
-
-  /* Turn off AUX */
-  ti_lib_aon_wuc_aux_wakeup_event(AONWUC_AUX_ALLOW_SLEEP);
-  ti_lib_aux_wuc_power_ctrl(AUX_WUC_POWER_OFF);
-  while(ti_lib_aon_wuc_power_status_get() & AONWUC_AUX_POWER_ON);
+  ti_lib_gpio_write_dio(SELECT_PIN, path);
 }
 /*---------------------------------------------------------------------------*/
+/** @} */
