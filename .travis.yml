@@ -18,12 +18,13 @@ addons:
 
 script:
   - sudo sh .scripts/install-arm-ltd-toolchain.sh
-  - make -C examples/${CONTIKI_PROJECT} -j$(nproc --all) TARGET=${CONTIKI_TARGET} BOARD=${CONTIKI_BOARD}
+  # the simplelink target supports 802.15.4 out of the box but uses an older set of SDK APIs
+  - make -C examples/hello-world -j`nproc --all` TARGET=simplelink BOARD=${CONTIKI_BOARD}
+  # the cc26x0-cc13x0 target supports BLE out of the box but uses a newer set of SDK APIs
+  - make -C examples/platform-specific/cc26x0-cc13x0/ble-ipv6 -j`nproc --all` TARGET=cc26x0-cc13x0 BOARD=${CONTIKI_BOARD}
 
 env:
   global:
-    - CONTIKI_PROJECT="hello-world"
-    - CONTIKI_TARGET="simplelink"
     - CONTIKI_BOARD="launchpad/cc1352r1"
     - ARMLTD_TC_VER="8-2018-q4"
     - ARMLTD_TC_VERDIR="8-2018q4"
