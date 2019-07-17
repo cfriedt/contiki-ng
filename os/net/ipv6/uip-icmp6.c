@@ -250,9 +250,9 @@ uip_icmp6_send(const uip_ipaddr_t *dest, int type, int code, int payload_len)
   UIP_STAT(++uip_stat.icmp.sent);
   UIP_STAT(++uip_stat.ip.sent);
 
-  LOG_INFO("Sending ICMPv6 packet to ");
-  LOG_INFO_6ADDR(&UIP_IP_BUF->destipaddr);
-  LOG_INFO_(", type %u, code %u, len %u\n", type, code, payload_len);
+//  LOG_INFO("Sending ICMPv6 packet to ");
+//  LOG_INFO_6ADDR(&UIP_IP_BUF->destipaddr);
+//  LOG_INFO_(", type %u, code %u, len %u\n", type, code, payload_len);
 
   tcpip_ipv6_output();
 }

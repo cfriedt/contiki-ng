@@ -495,11 +495,11 @@ get_nexthop(uip_ipaddr_t *addr)
   const uip_ipaddr_t *nexthop;
   uip_ds6_route_t *route;
 
-  LOG_INFO("output: processing %u bytes packet from ", uip_len);
-  LOG_INFO_6ADDR(&UIP_IP_BUF->srcipaddr);
-  LOG_INFO_(" to ");
-  LOG_INFO_6ADDR(&UIP_IP_BUF->destipaddr);
-  LOG_INFO_("\n");
+//  LOG_INFO("output: processing %u bytes packet from ", uip_len);
+//  LOG_INFO_6ADDR(&UIP_IP_BUF->srcipaddr);
+//  LOG_INFO_(" to ");
+//  LOG_INFO_6ADDR(&UIP_IP_BUF->destipaddr);
+//  LOG_INFO_("\n");
 
   if(NETSTACK_ROUTING.ext_header_srh_get_next_hop(addr)) {
     LOG_INFO("output: selected next hop from SRH: ");
@@ -512,7 +512,7 @@ get_nexthop(uip_ipaddr_t *addr)
      link. If so, we simply use the destination address as our
      nexthop address. */
   if(uip_ds6_is_addr_onlink(&UIP_IP_BUF->destipaddr)) {
-    LOG_INFO("output: destination is on link\n");
+//    LOG_INFO("output: destination is on link\n");
     return &UIP_IP_BUF->destipaddr;
   }
 
@@ -664,7 +664,7 @@ tcpip_ipv6_output(void)
   /* We first check if the destination address is one of ours. There is no
    * loopback interface -- instead, process this directly as incoming. */
   if(uip_ds6_is_my_addr(&UIP_IP_BUF->destipaddr)) {
-    LOG_INFO("output: sending to ourself\n");
+    //LOG_INFO("output: sending to ourself\n");
     packet_input();
     return;
   }
@@ -730,9 +730,9 @@ send_packet:
     linkaddr = NULL;
   }
 
-  LOG_INFO("output: sending to ");
-  LOG_INFO_LLADDR((linkaddr_t *)linkaddr);
-  LOG_INFO_("\n");
+  //LOG_INFO("output: sending to ");
+  //LOG_INFO_LLADDR((linkaddr_t *)linkaddr);
+  //LOG_INFO_("\n");
   tcpip_output(linkaddr);
 
   if(nbr) {

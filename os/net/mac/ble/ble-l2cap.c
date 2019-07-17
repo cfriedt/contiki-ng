@@ -321,7 +321,7 @@ send(mac_callback_t sent_callback, void *ptr)
   uint8_t i;
   l2cap_channel_t *channel;
   uint16_t data_len = packetbuf_datalen();
-  LOG_DBG("send %d\n", data_len);
+  //LOG_DBG("send %d\n", data_len);
 
   /* packet is too long */
   if(data_len > BLE_L2CAP_NODE_MTU) {

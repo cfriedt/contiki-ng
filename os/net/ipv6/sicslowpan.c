@@ -995,7 +995,7 @@ compress_hdr_iphc(linkaddr_t *link_destaddr)
   if(next_hdr != NULL) {
     /* Last header could not be compressed - we assume that this is then OK!*/
     /* as the last EXT_HDR should be "uncompressed" and have the next there */
-    LOG_DBG("compression: last header could is not compressed: %d\n", *next_hdr);
+    LOG_DBG("compression: last header is not compressed: %d\n", *next_hdr);
   }
   /* before the packetbuf_hdr_len operation */
   PACKETBUF_IPHC_BUF[0] = iphc0;

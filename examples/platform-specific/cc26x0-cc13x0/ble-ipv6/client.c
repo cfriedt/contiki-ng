@@ -47,7 +47,7 @@
 
 #include "os/dev/ble-hal.h"
 /*---------------------------------------------------------------------------*/
-#define SERVER_IP               "::"
+#define SERVER_IP             "fe80::5cf3:70ff:fe92:5c06"
 #define CLIENT_PORT           61617
 #define SERVER_PORT           61616
 
