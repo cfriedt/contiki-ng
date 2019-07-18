@@ -67,6 +67,7 @@
 /*/ * network stack settings * / */
 #define UIP_CONF_ROUTER                         0
 #define UIP_CONF_ND6_SEND_NA                1
+#define UIP_CONF_TCP 1
 //#define UIP_CONF_IPV6_CHECKS 0
 //#define UIP_CONF_UDP_CHECKSUMS 0
 //#define UIP_CONF_TCP_CHECKSUMS 0
