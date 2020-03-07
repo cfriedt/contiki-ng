@@ -46,13 +46,13 @@
 
 #define NETSTACK_CONF_RADIO                 ble_cc2650_driver
 
-//#define LOG_CONF_LEVEL_MAC        LOG_LEVEL_INFO
+#define LOG_CONF_LEVEL_MAC        LOG_LEVEL_INFO
 #define LOG_CONF_LEVEL_IPV6                        LOG_LEVEL_DBG
 #define LOG_CONF_LEVEL_RPL                         LOG_LEVEL_DBG
-//#define LOG_CONF_LEVEL_6LOWPAN                     LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_6LOWPAN                     LOG_LEVEL_INFO
 #define LOG_CONF_LEVEL_TCPIP                       LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
-#define LOG_CONF_LEVEL_FRAMER                      LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_MAC                         LOG_LEVEL_DBG
+//#define LOG_CONF_LEVEL_FRAMER                      LOG_LEVEL_DBG
 
 /* BLE L2CAP settings */
 #define BLE_CONF_DEVICE_NAME          "TI CC26xx device"
@@ -68,9 +68,11 @@
 #define UIP_CONF_ROUTER                         0
 #define UIP_CONF_ND6_SEND_NA                1
 #define UIP_CONF_TCP 1
-//#define UIP_CONF_IPV6_CHECKS 0
+#define UIP_CONF_IPV6_CHECKS 0
 //#define UIP_CONF_UDP_CHECKSUMS 0
 //#define UIP_CONF_TCP_CHECKSUMS 0
+
+#define BLE_MODE_CONF_MAX_CONNECTIONS 8
 /*---------------------------------------------------------------------------*/
 #endif /* PROJECT_CONF_H_ */
 /*---------------------------------------------------------------------------*/

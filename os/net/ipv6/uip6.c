@@ -1181,6 +1181,12 @@ uip_process(uint8_t flag)
   LOG_INFO_6ADDR(&UIP_IP_BUF->destipaddr);
   LOG_INFO_("\n");
 
+  //static const uint8_t myip[] = { 0x06, 0x5c, 0x92, 0xfe, 0xff, 0xb0, 0x6f, 0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0xfe };
+  static const uint8_t myip[] = { 0xfe, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x5e, 0xf3, 0x70, 0xff, 0xfe, 0x92, 0x5c, 0x06 };
+  if ( 0 == memcmp( myip, UIP_IP_BUF->srcipaddr.u8, 16 ) ) {
+	LOG_INFO( "\\o/ \\o/ \\o/ \\o/ \\o/ \\o/\n" );
+  }
+
   if(uip_is_addr_mcast(&UIP_IP_BUF->srcipaddr)){
     UIP_STAT(++uip_stat.ip.drop);
     LOG_ERR("Dropping packet, src is mcast\n");
@@ -1450,7 +1456,7 @@ uip_process(uint8_t flag)
   if(uip_icmp6chksum() != 0xffff) {
     UIP_STAT(++uip_stat.icmp.drop);
     UIP_STAT(++uip_stat.icmp.chkerr);
-    LOG_ERR("icmpv6 bad checksum\n");
+    LOG_ERR("icmpv6 bad checksum %04x\n", uip_icmp6chksum());
     goto drop;
   }
 #endif /*UIP_CONF_IPV6_CHECKS*/
